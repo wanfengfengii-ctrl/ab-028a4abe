@@ -1,0 +1,15 @@
+{
+  "modulus": 8,
+  "countMin": 0,
+  "countMax": 24,
+  "minInterval": 9,
+  "maxInterval": 11,
+  "packets": [
+    {"id": "D", "remainder": 7, "timeLower": 148, "timeUpper": 152},
+    {"id": "A", "remainder": 6, "timeLower": 58, "timeUpper": 62},
+    {"id": "F", "remainder": 1, "timeLower": 168, "timeUpper": 172},
+    {"id": "B", "remainder": 7, "timeLower": 68, "timeUpper": 72},
+    {"id": "C", "remainder": 2, "timeLower": 98, "timeUpper": 103},
+    {"id": "E", "remainder": 0, "timeLower": 157, "timeUpper": 161}
+  ]
+}

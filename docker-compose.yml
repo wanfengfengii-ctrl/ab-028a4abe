@@ -1,0 +1,38 @@
+services:
+  api:
+    build:
+      context: .
+      target: runtime
+    image: buoy-telemetry-reorder:latest
+    container_name: buoy-api
+    environment:
+      # In-container listen port; the host-side port is mapped below.
+      API_PORT: "3000"
+    ports:
+      # Host port is controlled by API_PORT on the host (default 3000):
+      #   API_PORT=8080 docker compose up --build
+      - "${API_PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD", "node", "dist/src/healthcheck.js"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 4s
+    restart: unless-stopped
+
+  # One-shot verification: waits for API health, then runs the TypeScript
+  # build, the unit tests and the cross-week HTTP smoke, exiting by itself
+  # with the corresponding status code.
+  verify:
+    build:
+      context: .
+      target: verify
+    image: buoy-telemetry-reorder:verify
+    container_name: buoy-verify
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      API_URL: "http://api:3000"
+      VERIFY_WAIT_MS: "60000"
+    restart: "no"
